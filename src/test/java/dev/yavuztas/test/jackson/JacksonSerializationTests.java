@@ -68,7 +68,7 @@ public class JacksonSerializationTests {
 	}
 
 	@Test
-	public void gsonSerializeFromMultipleValueTest() throws IOException {
+	public void serializeFromMultipleValueTest() throws IOException {
 
 		String json = mapper.writeValueAsString(this.mockModelMultiValue);
 
@@ -89,7 +89,7 @@ public class JacksonSerializationTests {
 	}
 
 	@Test
-	public void gsonSerializeFromSingleValueTest() throws IOException {
+	public void serializeFromSingleValueTest() throws IOException {
 
 		String json = mapper.writeValueAsString(this.mockModelSingleValue);
 
