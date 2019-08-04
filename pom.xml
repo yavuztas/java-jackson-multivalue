@@ -2,9 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>dev.yavuztas.samples</groupId>
-	<artifactId>java-gson-multivalue</artifactId>
+	<artifactId>java-jackson-multivalue</artifactId>
 	<version>0.0.1</version>
-	<name>java-gson-multivalue</name>
+	<name>java-jackson-multivalue</name>
 	<description>Educational repository containing sample codes for the article</description>
 
 	<properties>
