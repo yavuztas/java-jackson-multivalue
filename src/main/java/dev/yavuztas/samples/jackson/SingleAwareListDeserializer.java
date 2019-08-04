@@ -26,49 +26,51 @@ import dev.yavuztas.samples.jackson.model.CommentModel;
  */
 public class SingleAwareListDeserializer extends StdDeserializer<List> implements ContextualDeserializer {
 
-	private Class<?> contentClassType;
+    private Class<?> contentClassType;
 
-	public SingleAwareListDeserializer() {
-		this(null);
-	}
+    public SingleAwareListDeserializer() {
+        this(null);
+    }
 
-	private SingleAwareListDeserializer(JavaType valueType) {
-		super(valueType);
-	}
+    private SingleAwareListDeserializer(JavaType valueType) {
+        super(valueType);
+    }
 
-	@Override
-	public JsonDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) throws JsonMappingException {
-		// we use ContextualDeserializer to obtain content class type
-		contentClassType = property.getType().getContentType().getRawClass();
-		return this;
-	}
+    @Override
+    public JsonDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) throws JsonMappingException {
+        // we use ContextualDeserializer to obtain content class type
+        contentClassType = property.getType()
+            .getContentType()
+            .getRawClass();
+        return this;
+    }
 
-	@Override
-	public List deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    @Override
+    public List deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-		List list = new ArrayList<>();
+        List list = new ArrayList<>();
 
-		JsonToken token = p.currentToken();
-		// if token is array type then perform object deserialization to each element
-		if (JsonToken.START_ARRAY.equals(token)) {
-			while (p.nextToken() != null) {
-				if (JsonToken.START_OBJECT.equals(p.currentToken())) {
-					list.add(deserializeObject(p));
-				}
-			}
-		}
+        JsonToken token = p.currentToken();
+        // if token is array type then perform object deserialization to each element
+        if (JsonToken.START_ARRAY.equals(token)) {
+            while (p.nextToken() != null) {
+                if (JsonToken.START_OBJECT.equals(p.currentToken())) {
+                    list.add(deserializeObject(p));
+                }
+            }
+        }
 
-		// if token is object type
-		if (JsonToken.START_OBJECT.equals(token)) {
-			list.add(deserializeObject(p));
-		}
+        // if token is object type
+        if (JsonToken.START_OBJECT.equals(token)) {
+            list.add(deserializeObject(p));
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	private Object deserializeObject(JsonParser p) throws IOException {
-		// just use jackson default object deserializer by using content type
-		return p.readValueAs(contentClassType);
-	}
+    private Object deserializeObject(JsonParser p) throws IOException {
+        // just use jackson default object deserializer by using content type
+        return p.readValueAs(contentClassType);
+    }
 
 }

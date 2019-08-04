@@ -23,35 +23,35 @@ import dev.yavuztas.samples.jackson.model.CommentModel;
  */
 public class CommentListDeserializer extends StdDeserializer<List> {
 
-	private static final TypeReference<List<CommentModel>> LIST_OF_COMMENTS_TYPE = new TypeReference<List<CommentModel>>() {
-	};
+    private static final TypeReference<List<CommentModel>> LIST_OF_COMMENTS_TYPE = new TypeReference<List<CommentModel>>() {
+    };
 
-	public CommentListDeserializer() {
-		this(null);
-	}
+    public CommentListDeserializer() {
+        this(null);
+    }
 
-	private CommentListDeserializer(JavaType valueType) {
-		super(valueType);
-	}
+    private CommentListDeserializer(JavaType valueType) {
+        super(valueType);
+    }
 
-	@Override
-	public List deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    @Override
+    public List deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-		List<CommentModel> commentList = new ArrayList<>();
+        List<CommentModel> commentList = new ArrayList<>();
 
-		JsonToken token = p.currentToken();
+        JsonToken token = p.currentToken();
 
-		if (JsonToken.START_ARRAY.equals(token)) {
-			List<CommentModel> listOfArticles = p.readValueAs(LIST_OF_COMMENTS_TYPE);
-			commentList.addAll(listOfArticles);
-		}
+        if (JsonToken.START_ARRAY.equals(token)) {
+            List<CommentModel> listOfArticles = p.readValueAs(LIST_OF_COMMENTS_TYPE);
+            commentList.addAll(listOfArticles);
+        }
 
-		if (JsonToken.START_OBJECT.equals(token)) {
-			CommentModel article = p.readValueAs(CommentModel.class);
-			commentList.add(article);
-		}
+        if (JsonToken.START_OBJECT.equals(token)) {
+            CommentModel article = p.readValueAs(CommentModel.class);
+            commentList.add(article);
+        }
 
-		return commentList;
-	}
+        return commentList;
+    }
 
 }

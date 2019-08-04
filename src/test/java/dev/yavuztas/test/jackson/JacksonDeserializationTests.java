@@ -24,123 +24,169 @@ import junit.framework.Assert;
  */
 public class JacksonDeserializationTests {
 
-	private ObjectMapper mapper;
-	private String mockResponseSingleValue;
-	private String mockResponseMultiValue;
+    private ObjectMapper mapper;
+    private String mockResponseSingleValue;
+    private String mockResponseMultiValue;
 
-	@Before
-	public void setup() {
+    @Before
+    public void setup() {
 
-		// initialize gson instance
-		this.mapper = new ObjectMapper();
-		// mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        // initialize gson instance
+        this.mapper = new ObjectMapper();
+        // mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
-		// prepare the mock data
-		ObjectNode response = mapper.createObjectNode();
+        // prepare the mock data
+        ObjectNode response = mapper.createObjectNode();
 
-		response.put("id", 1);
-		response.put("name", "sample article");
+        response.put("id", 1);
+        response.put("name", "sample article");
 
-		ObjectNode comment = mapper.createObjectNode();
-		comment.put("id", 1);
-		comment.put("text", "some comment text");
+        ObjectNode comment = mapper.createObjectNode();
+        comment.put("id", 1);
+        comment.put("text", "some comment text");
 
-		response.set("comments", comment);
+        response.set("comments", comment);
 
-		this.mockResponseSingleValue = response.toString();
+        this.mockResponseSingleValue = response.toString();
 
-		response = mapper.createObjectNode();
-		response.put("id", 1);
-		response.put("name", "sample article");
+        response = mapper.createObjectNode();
+        response.put("id", 1);
+        response.put("name", "sample article");
 
-		ObjectNode comment1 = mapper.createObjectNode();
-		comment1.put("id", 1);
-		comment1.put("text", "some comment text");
+        ObjectNode comment1 = mapper.createObjectNode();
+        comment1.put("id", 1);
+        comment1.put("text", "some comment text");
 
-		ObjectNode comment2 = mapper.createObjectNode();
-		comment2.put("id", 2);
-		comment2.put("text", "some another comment text");
+        ObjectNode comment2 = mapper.createObjectNode();
+        comment2.put("id", 2);
+        comment2.put("text", "some another comment text");
 
-		ArrayNode array = mapper.createArrayNode();
-		array.add(comment1);
-		array.add(comment2);
+        ArrayNode array = mapper.createArrayNode();
+        array.add(comment1);
+        array.add(comment2);
 
-		response.set("comments", array);
+        response.set("comments", array);
 
-		this.mockResponseMultiValue = response.toString();
+        this.mockResponseMultiValue = response.toString();
 
-	}
+    }
 
-	@Test
-	public void deserializeStaticMultipleValueTest() throws JsonParseException, JsonMappingException, IOException {
+    @Test
+    public void deserializeStaticMultipleValueTest() throws JsonParseException, JsonMappingException, IOException {
 
-		ArticleModelStatic model = mapper.readValue(this.mockResponseMultiValue, ArticleModelStatic.class);
+        ArticleModelStatic model = mapper.readValue(this.mockResponseMultiValue, ArticleModelStatic.class);
 
-		Assert.assertEquals(ArticleModelStatic.class, model.getClass());
-		Assert.assertEquals(model.getComments().get(0).getClass(), CommentModel.class);
+        Assert.assertEquals(ArticleModelStatic.class, model.getClass());
+        Assert.assertEquals(model.getComments()
+            .get(0)
+            .getClass(), CommentModel.class);
 
-		Assert.assertEquals(1, model.getId().longValue());
-		Assert.assertEquals("sample article", model.getName());
+        Assert.assertEquals(1, model.getId()
+            .longValue());
+        Assert.assertEquals("sample article", model.getName());
 
-		Assert.assertEquals(2, model.getComments().size());
-		Assert.assertEquals(1, model.getComments().get(0).getId().longValue());
-		Assert.assertEquals("some comment text", model.getComments().get(0).getText());
-		Assert.assertEquals(2, model.getComments().get(1).getId().longValue());
-		Assert.assertEquals("some another comment text", model.getComments().get(1).getText());
+        Assert.assertEquals(2, model.getComments()
+            .size());
+        Assert.assertEquals(1, model.getComments()
+            .get(0)
+            .getId()
+            .longValue());
+        Assert.assertEquals("some comment text", model.getComments()
+            .get(0)
+            .getText());
+        Assert.assertEquals(2, model.getComments()
+            .get(1)
+            .getId()
+            .longValue());
+        Assert.assertEquals("some another comment text", model.getComments()
+            .get(1)
+            .getText());
 
-	}
+    }
 
-	@Test
-	public void deserializeStaticSingleValueTest() throws JsonParseException, JsonMappingException, IOException {
+    @Test
+    public void deserializeStaticSingleValueTest() throws JsonParseException, JsonMappingException, IOException {
 
-		ArticleModelStatic model = mapper.readValue(this.mockResponseSingleValue, ArticleModelStatic.class);
+        ArticleModelStatic model = mapper.readValue(this.mockResponseSingleValue, ArticleModelStatic.class);
 
-		Assert.assertEquals(ArticleModelStatic.class, model.getClass());
-		Assert.assertEquals(model.getComments().get(0).getClass(), CommentModel.class);
+        Assert.assertEquals(ArticleModelStatic.class, model.getClass());
+        Assert.assertEquals(model.getComments()
+            .get(0)
+            .getClass(), CommentModel.class);
 
-		Assert.assertEquals(1, model.getId().longValue());
-		Assert.assertEquals("sample article", model.getName());
+        Assert.assertEquals(1, model.getId()
+            .longValue());
+        Assert.assertEquals("sample article", model.getName());
 
-		Assert.assertEquals(1, model.getComments().size());
-		Assert.assertEquals(1, model.getComments().get(0).getId().longValue());
-		Assert.assertEquals("some comment text", model.getComments().get(0).getText());
+        Assert.assertEquals(1, model.getComments()
+            .size());
+        Assert.assertEquals(1, model.getComments()
+            .get(0)
+            .getId()
+            .longValue());
+        Assert.assertEquals("some comment text", model.getComments()
+            .get(0)
+            .getText());
 
-	}
+    }
 
-	@Test
-	public void deserializeGenericMultipleValueTest() throws JsonParseException, JsonMappingException, IOException {
+    @Test
+    public void deserializeGenericMultipleValueTest() throws JsonParseException, JsonMappingException, IOException {
 
-		ArticleModel model = mapper.readValue(this.mockResponseMultiValue, ArticleModel.class);
+        ArticleModel model = mapper.readValue(this.mockResponseMultiValue, ArticleModel.class);
 
-		Assert.assertEquals(ArticleModel.class, model.getClass());
-		Assert.assertEquals(model.getComments().get(0).getClass(), CommentModel.class);
+        Assert.assertEquals(ArticleModel.class, model.getClass());
+        Assert.assertEquals(model.getComments()
+            .get(0)
+            .getClass(), CommentModel.class);
 
-		Assert.assertEquals(1, model.getId().longValue());
-		Assert.assertEquals("sample article", model.getName());
+        Assert.assertEquals(1, model.getId()
+            .longValue());
+        Assert.assertEquals("sample article", model.getName());
 
-		Assert.assertEquals(2, model.getComments().size());
-		Assert.assertEquals(1, model.getComments().get(0).getId().longValue());
-		Assert.assertEquals("some comment text", model.getComments().get(0).getText());
-		Assert.assertEquals(2, model.getComments().get(1).getId().longValue());
-		Assert.assertEquals("some another comment text", model.getComments().get(1).getText());
+        Assert.assertEquals(2, model.getComments()
+            .size());
+        Assert.assertEquals(1, model.getComments()
+            .get(0)
+            .getId()
+            .longValue());
+        Assert.assertEquals("some comment text", model.getComments()
+            .get(0)
+            .getText());
+        Assert.assertEquals(2, model.getComments()
+            .get(1)
+            .getId()
+            .longValue());
+        Assert.assertEquals("some another comment text", model.getComments()
+            .get(1)
+            .getText());
 
-	}
+    }
 
-	@Test
-	public void deserializeGenericSingleValueTest() throws JsonParseException, JsonMappingException, IOException {
+    @Test
+    public void deserializeGenericSingleValueTest() throws JsonParseException, JsonMappingException, IOException {
 
-		ArticleModel model = mapper.readValue(this.mockResponseSingleValue, ArticleModel.class);
+        ArticleModel model = mapper.readValue(this.mockResponseSingleValue, ArticleModel.class);
 
-		Assert.assertEquals(ArticleModel.class, model.getClass());
-		Assert.assertEquals(model.getComments().get(0).getClass(), CommentModel.class);
+        Assert.assertEquals(ArticleModel.class, model.getClass());
+        Assert.assertEquals(model.getComments()
+            .get(0)
+            .getClass(), CommentModel.class);
 
-		Assert.assertEquals(1, model.getId().longValue());
-		Assert.assertEquals("sample article", model.getName());
+        Assert.assertEquals(1, model.getId()
+            .longValue());
+        Assert.assertEquals("sample article", model.getName());
 
-		Assert.assertEquals(1, model.getComments().size());
-		Assert.assertEquals(1, model.getComments().get(0).getId().longValue());
-		Assert.assertEquals("some comment text", model.getComments().get(0).getText());
+        Assert.assertEquals(1, model.getComments()
+            .size());
+        Assert.assertEquals(1, model.getComments()
+            .get(0)
+            .getId()
+            .longValue());
+        Assert.assertEquals("some comment text", model.getComments()
+            .get(0)
+            .getText());
 
-	}
+    }
 
 }
