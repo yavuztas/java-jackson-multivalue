@@ -9,7 +9,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import dev.yavuztas.samples.jackson.model.CommentModel;
@@ -27,11 +26,7 @@ public class CommentListDeserializer extends StdDeserializer<List> {
     };
 
     public CommentListDeserializer() {
-        this(null);
-    }
-
-    private CommentListDeserializer(JavaType valueType) {
-        super(valueType);
+        super(List.class);
     }
 
     @Override

@@ -9,7 +9,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
@@ -29,11 +28,7 @@ public class SingleAwareListDeserializer extends StdDeserializer<List> implement
     private Class<?> contentClassType;
 
     public SingleAwareListDeserializer() {
-        this(null);
-    }
-
-    private SingleAwareListDeserializer(JavaType valueType) {
-        super(valueType);
+        super(List.class);
     }
 
     @Override
